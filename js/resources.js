@@ -1,6 +1,7 @@
 game.resources = [
   {name: "space-background1-cropped",  type:"image", src: "data/img/space-background1-cropped.png"},
-  {name: "space_background_1", type: "tmx", src: "data/map/space_background_1.tmx"} // TODO: change to json format through tiled?
+  {name: "space_background_1", type: "tmx", src: "data/map/space_background_1.tmx"}, // TODO: change to json format through tiled?
+  {name: "bluedestroyer", type:"image", src: "data/img/sprite/bluedestroyer.png"},
 
     /* Graphics.
      * @example
