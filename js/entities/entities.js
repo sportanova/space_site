@@ -10,7 +10,7 @@ game.PlayerEntity = me.Entity.extend({
     ------ */
  
     init: function(x, y, settings) {
-        settings['height'] = 99;
+        settings['height'] = 75;
         // call the constructor
         this._super(me.Entity, 'init', [x, y, settings]);
  
@@ -33,6 +33,9 @@ game.PlayerEntity = me.Entity.extend({
  
     ------ */
     update: function(dt) {
+        if (me.input.isKeyPressed('left') && me.input.isKeyPressed('up')) {
+            console.log('BOTH')
+        }
         if (me.input.isKeyPressed('left')) {
             // flip the sprite on horizontal axis
             // this.renderable.flipX(true);
