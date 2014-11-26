@@ -230,20 +230,7 @@ game.Laser = me.Renderable.extend({
     draw: function (renderer) {
         var color = renderer.getColor();
         renderer.setColor('#5EFF7E');
-        if(playerData.orientation === 'west') {
-            renderer.fillRect(this.pos.x, this.pos.y, this.height, this.width);
-        }
-        else if(playerData.orientation === 'east') {
-            renderer.fillRect(this.pos.x, this.pos.y, this.height, this.width);
-        }
-        else if(playerData.orientation === 'northWest') {
-            renderer.fillRect(this.pos.x, this.pos.y, this.height, this.width);
-            // renderer.rotate(Math.PI * 1.50)
-            // console.log('renderer', renderer)
-        }
-        else {
-            renderer.fillRect(this.pos.x, this.pos.y, this.width, this.height);
-        }
+        renderer.fillRect(this.pos.x, this.pos.y, this.width, this.height);
         renderer.setColor(color);
     },
 
@@ -262,11 +249,14 @@ game.Laser = me.Renderable.extend({
 
         this.body.update();
 
+        me.collision.check(this);
+
         return true;
     },
     onCollision: function(response, other) {
+        console.log('collision', response.a.name)
         if(response.a.name === 'mainplayer') {
-            return false;
+            // return false;
         }
         return true;
     }
