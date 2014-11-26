@@ -133,35 +133,34 @@ game.Laser = me.Renderable.extend({
         this.z = 5;
         var body = this.calcLaserShape();
         this.body = body;
-
-        // this.body = new me.Body(this, ([
-        //     new me.Polygon(0, 0, [
-        //         new me.Vector2d(0, 0),
-        //         new me.Vector2d(this.width, 0),
-        //         new me.Vector2d(this.width, this.height),
-        //         new me.Vector2d(0, this.height)
-        //     ])
-        // ]));
-        // console.log('this.body', this.body.entity.body.shapes[0].points)
         this.body.updateBounds();
         this.body.setVelocity(0, 20);
     },
 
     calcLaserPosition: function(x, y, playerOrientation) {
       if(playerOrientation === 'south') {
-        return {x: x, y: y + 110};
+        return {x: x, y: y + 90};
       }
       if(playerOrientation === 'north') {
-        return {x: x, y: y - 10};
+        return {x: x, y: y - 5};
       }
       if(playerOrientation === 'west') {
-        return {x: x - 70, y: y + 63};
+        return {x: x - 70, y: y + 42};
       }
       if(playerOrientation === 'east') {
-        return {x: x + 50, y: y + 63};
+        return {x: x + 50, y: y + 40};
       }
       if(playerOrientation === 'northWest') {
-        return {x: x + 50, y: y + 63};
+        return {x: x - 45, y: y + 15};
+      }
+      if(playerOrientation === 'northEast') {
+        return {x: x + 45, y: y + 15};
+      }
+      if(playerOrientation === 'southEast') {
+        return {x: x + 45, y: y + 65};
+      }
+      if(playerOrientation === 'southWest') {
+        return {x: x - 45, y: y + 65};
       }
       else {
         return {x: x, y: y}
@@ -206,6 +205,24 @@ game.Laser = me.Renderable.extend({
         this.body.setVelocity(20, 20);
         var updatedVelX = velx - (accelX * tick);
         var updatedVelY = vely - (accelY * tick);;
+        return {velx: updatedVelX, vely: updatedVelY};
+      }
+      else if(playerOrientation === 'northEast') {
+        this.body.setVelocity(20, 20);
+        var updatedVelX = velx + (accelX * tick);
+        var updatedVelY = vely - (accelY * tick);;
+        return {velx: updatedVelX, vely: updatedVelY};
+      }
+      else if(playerOrientation === 'southEast') {
+        this.body.setVelocity(20, 20);
+        var updatedVelX = velx + (accelX * tick);
+        var updatedVelY = vely + (accelY * tick);;
+        return {velx: updatedVelX, vely: updatedVelY};
+      }
+      else if(playerOrientation === 'southWest') {
+        this.body.setVelocity(20, 20);
+        var updatedVelX = velx - (accelX * tick);
+        var updatedVelY = vely + (accelY * tick);;
         return {velx: updatedVelX, vely: updatedVelY};
       }
     },
@@ -256,4 +273,4 @@ game.Laser = me.Renderable.extend({
 });
 
 game.Laser.width = 5;
-game.Laser.height = 28;
+game.Laser.height = 5;
