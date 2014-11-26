@@ -1,4 +1,4 @@
-var playerData = {};
+var playerData = {orientation: 'north'};
 
 game.PlayerEntity = me.Entity.extend({
     init: function(x, y, settings) {
@@ -62,7 +62,6 @@ game.PlayerEntity = me.Entity.extend({
             //     this.renderable.setCurrentAnimation("walk");
             // }
         } else if (me.input.isKeyPressed('right')) {
-            // console.log(this.renderable)
             this.renderable.angle = Math.PI * 0.5;
             this.body.vel.y = 0;
             // unflip the sprite
@@ -129,7 +128,7 @@ game.PlayerEntity = me.Entity.extend({
 
 game.Laser = me.Renderable.extend({
     init: function (x, y) {
-        var lazerCords = this.calcLaserOrientation(x, y, playerData.orientation);
+        var lazerCords = this.calcLaserPosition(x, y, playerData.orientation);
         this._super(me.Renderable, "init", [lazerCords.x, lazerCords.y, game.Laser.width, game.Laser.height]);
         this.z = 5;
         var body = this.calcLaserShape();
@@ -143,13 +142,12 @@ game.Laser = me.Renderable.extend({
         //         new me.Vector2d(0, this.height)
         //     ])
         // ]));
-        console.log('this.body', this.body.entity)
-        console.log('this.body', this.body.entity.body.shapes[0].points)
+        // console.log('this.body', this.body.entity.body.shapes[0].points)
         this.body.updateBounds();
         this.body.setVelocity(0, 20);
     },
 
-    calcLaserOrientation: function(x, y, playerOrientation) {
+    calcLaserPosition: function(x, y, playerOrientation) {
       if(playerOrientation === 'south') {
         return {x: x, y: y + 110};
       }
@@ -157,8 +155,13 @@ game.Laser = me.Renderable.extend({
         return {x: x, y: y - 10};
       }
       if(playerOrientation === 'west') {
-        console.log('getting here')
-        return {x: x - 60, y: y + 40};
+        return {x: x - 70, y: y + 63};
+      }
+      if(playerOrientation === 'east') {
+        return {x: x + 50, y: y + 63};
+      }
+      if(playerOrientation === 'northWest') {
+        return {x: x + 50, y: y + 63};
       }
       else {
         return {x: x, y: y}
@@ -181,17 +184,28 @@ game.Laser = me.Renderable.extend({
         var updatedVelY = vely + (accelY * tick);
         return {velx: updatedVelX, vely: updatedVelY};
       }
-      if(playerOrientation === 'north') {
+      else if(playerOrientation === 'north') {
         this.body.setVelocity(0, 20);
         var updatedVelX = 0;
         var updatedVelY = vely - (accelY * tick);
         return {velx: updatedVelX, vely: updatedVelY};
       }
-      if(playerOrientation === 'west') {
+      else if(playerOrientation === 'west') {
         this.body.setVelocity(20, 0);
         var updatedVelX = velx - (accelX * tick);
         var updatedVelY = 0;
-        console.log('updatedVelY', updatedVelY)
+        return {velx: updatedVelX, vely: updatedVelY};
+      }
+      else if(playerOrientation === 'east') {
+        this.body.setVelocity(20, 0);
+        var updatedVelX = velx + (accelX * tick);
+        var updatedVelY = 0;
+        return {velx: updatedVelX, vely: updatedVelY};
+      }
+      else if(playerOrientation === 'northWest') {
+        this.body.setVelocity(20, 20);
+        var updatedVelX = velx - (accelX * tick);
+        var updatedVelY = vely - (accelY * tick);;
         return {velx: updatedVelX, vely: updatedVelY};
       }
     },
@@ -199,7 +213,20 @@ game.Laser = me.Renderable.extend({
     draw: function (renderer) {
         var color = renderer.getColor();
         renderer.setColor('#5EFF7E');
-        renderer.fillRect(this.pos.x, this.pos.y, this.width, this.height);
+        if(playerData.orientation === 'west') {
+            renderer.fillRect(this.pos.x, this.pos.y, this.height, this.width);
+        }
+        else if(playerData.orientation === 'east') {
+            renderer.fillRect(this.pos.x, this.pos.y, this.height, this.width);
+        }
+        else if(playerData.orientation === 'northWest') {
+            renderer.fillRect(this.pos.x, this.pos.y, this.height, this.width);
+            // renderer.rotate(Math.PI * 1.50)
+            // console.log('renderer', renderer)
+        }
+        else {
+            renderer.fillRect(this.pos.x, this.pos.y, this.width, this.height);
+        }
         renderer.setColor(color);
     },
 
@@ -222,8 +249,6 @@ game.Laser = me.Renderable.extend({
     },
     onCollision: function(response, other) {
         if(response.a.name === 'mainplayer') {
-            // console.log('response', response)
-            // console.log('other', other)
             return false;
         }
         return true;
