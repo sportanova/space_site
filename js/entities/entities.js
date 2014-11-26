@@ -35,7 +35,6 @@ game.PlayerEntity = me.Entity.extend({
     update: function(dt) {
         if (me.input.isKeyPressed('left') && me.input.isKeyPressed('up')) {
             this.renderable.angle = Math.PI * 1.75;
-            console.log('yup')
             this.body.vel.y -= this.body.accel.y * me.timer.tick;
             this.body.vel.x -= this.body.accel.x * me.timer.tick;
         }

@@ -12,7 +12,7 @@
   </data>
  </layer>
  <objectgroup name="player_level">
-  <object name="mainPlayer" x="519" y="558" width="90" height="126">
+  <object name="mainPlayer" x="519" y="558" width="70" height="128">
    <properties>
     <property name="image" value="bluedestroyer"/>
     <property name="spritewidth" value="54"/>
