@@ -90,6 +90,10 @@ game.PlayerEntity = me.Entity.extend({
             this.body.vel.x = 0;
             this.renderable.setCurrentAnimation("walk");
         }
+
+        if (me.input.isKeyPressed("shoot")) {
+            me.game.world.addChild(me.pool.pull("laser", this.pos.x + (this.width / 2 - game.Laser.width / 2), this.pos.y - game.Laser.height))
+        }
      
         // if (me.input.isKeyPressed('jump')) {
         //     // make sure we are not already jumping or falling
@@ -122,3 +126,50 @@ game.PlayerEntity = me.Entity.extend({
         return true;
     }
 });
+
+game.Laser = me.Renderable.extend({
+    init: function (x, y) {
+        this._super(me.Renderable, "init", [x, y, game.Laser.width, game.Laser.height]);
+        this.z = 5;
+        this.body = new me.Body(this, ([
+            new me.Polygon(0, 0, [
+                new me.Vector2d(0, 0),
+                new me.Vector2d(this.width, 0),
+                new me.Vector2d(this.width, this.height),
+                new me.Vector2d(0, this.height)
+            ])
+        ]));
+        this.body.updateBounds();
+        this.body.setVelocity(0, 20);
+    },
+
+    draw: function (renderer) {
+        var color = renderer.getColor();
+        renderer.setColor('#5EFF7E');
+        renderer.fillRect(this.pos.x, this.pos.y, this.width, this.height);
+        renderer.setColor(color);
+    },
+
+    update: function (time) {
+        this._super(me.Renderable, "update", [time]);
+        this.body.vel.y -= this.body.accel.y * me.timer.tick;
+        if (this.pos.y + this.height <= 0) {
+            me.game.world.removeChild(this);
+        }
+
+        this.body.update();
+
+        return true;
+    },
+    onCollision: function(response, other) {
+        if(response.a.name === 'mainplayer') {
+            console.log('response', response)
+            console.log('other', other)
+            return false;
+        }
+        return true;
+    }
+});
+
+game.Laser.width = 5;
+game.Laser.height = 28;
