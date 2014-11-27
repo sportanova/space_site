@@ -15,19 +15,23 @@ game.AsteroidEntity = me.Entity.extend({
         me.game.world.removeChild(this);
 
         var image = me.loader.getImage('explosion');
-        var emitter = new me.ParticleEmitter(this.x, this.y, {
+        var emitter = new me.ParticleEmitter(this.x + (this.width / 2), this.y + (this.height / 2), {
             image: image,
             width: 10,
-            totalParticles: 500,
+            totalParticles: 100,
             angle: 0,
             angleVariation: 16.283185307179586,
-            maxLife: 5000
+            maxLife: 3000
         });
-        emitter.name = 'radial explosion';
         emitter.z = 11;
         me.game.world.addChild(emitter);
         me.game.world.addChild(emitter.container);
-        emitter.burstParticles(500);
+        emitter.burstParticles();
+
+        setTimeout(function() {
+            me.game.world.removeChild(emitter);
+            me.game.world.removeChild(emitter.container);
+        }, 3000)
       }
     },
     update: function(dt) {
@@ -297,11 +301,8 @@ game.Laser = me.Renderable.extend({
     update: function (time) {
         this._super(me.Renderable, "update", [time]);
         var deltas = this.calcLaserDirectionDelta(this.body.vel.x, this.body.vel.y, this.body.accel.x, this.body.accel.y, playerData.orientation, me.timer.tick);
-        // this.body.vel.y += this.body.accel.y * me.timer.tick;
         this.body.vel.y = deltas.vely;
         this.body.vel.x = deltas.velx;
-        // console.log('this.body.vel.y', this.body.vel.y);
-        // this.body.vel.x -= this.body.accel.y * me.timer.tick;
 
         if (this.pos.y + this.height <= 0) {
             me.game.world.removeChild(this);
@@ -317,7 +318,6 @@ game.Laser = me.Renderable.extend({
         if(response.b.name === 'mainplayer') {
             // return false;
         } else if(response.b.name === 'asteroid') {
-            console.log('asteroid', response.b)
             var asteroid = response.b;
             asteroid.removeHitPoint();
             me.game.world.removeChild(this);
