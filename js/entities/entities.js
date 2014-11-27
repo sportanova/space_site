@@ -1,5 +1,48 @@
 var playerData = {orientation: 'north'};
 
+game.AsteroidEntity = me.Entity.extend({
+  init: function(x, y, settings) {
+        settings['height'] = 128;
+        // call the constructor
+        this._super(me.Entity, 'init', [x, y, settings]);
+        this.hitPoints = 3;
+    },
+    removeHitPoint: function() {
+      this.hitPoints -= 1;
+      console.log(this.hitPoints);
+      if (this.hitPoints === 0) {
+        me.game.world.removeChild(this);
+      }
+    },
+    update: function(dt) {
+        // apply physics to the body (this moves the entity)
+        this.body.update(dt);
+ 
+        // handle collisions against other shapes
+        me.collision.check(this);
+ 
+        // return true if we moved or if the renderable was updated
+        return (this._super(me.Entity, 'update', [dt]) || this.body.vel.x !== 0 || this.body.vel.y !== 0);
+    },
+     
+    /**
+     * colision handler
+     * (called when colliding with other objects)
+     */
+    onCollision : function (response, other) {
+        // Make all other objects solid
+        if(response.a.name === 'mainplayer') {
+            return false;
+        }
+        else if(response.a.name === 'mainplayer') {
+            return false;
+        }
+        else {
+            return false;
+        }
+    }
+})
+
 game.PlayerEntity = me.Entity.extend({
     init: function(x, y, settings) {
         settings['height'] = 75;
@@ -131,6 +174,7 @@ game.Laser = me.Renderable.extend({
         var lazerCords = this.calcLaserPosition(x, y, playerData.orientation);
         this._super(me.Renderable, "init", [lazerCords.x, lazerCords.y, game.Laser.width, game.Laser.height]);
         this.z = 5;
+        this.name = 'laser'
         var body = this.calcLaserShape();
         this.body = body;
         this.body.updateBounds();
@@ -254,10 +298,15 @@ game.Laser = me.Renderable.extend({
         return true;
     },
     onCollision: function(response, other) {
-        console.log('collision', response.a.name)
-        if(response.a.name === 'mainplayer') {
+        if(response.b.name === 'mainplayer') {
             // return false;
+        } else if(response.b.name === 'asteroid') {
+            console.log('asteroid', response.b)
+            var asteroid = response.b;
+            asteroid.removeHitPoint();
+            me.game.world.removeChild(this);
         }
+
         return true;
     }
 });
