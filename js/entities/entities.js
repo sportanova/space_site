@@ -6,12 +6,28 @@ game.AsteroidEntity = me.Entity.extend({
         // call the constructor
         this._super(me.Entity, 'init', [x, y, settings]);
         this.hitPoints = 3;
+        this.x = x;
+        this.y = y;
     },
     removeHitPoint: function() {
       this.hitPoints -= 1;
-      console.log(this.hitPoints);
       if (this.hitPoints === 0) {
         me.game.world.removeChild(this);
+
+        var image = me.loader.getImage('explosion');
+        var emitter = new me.ParticleEmitter(this.x, this.y, {
+            image: image,
+            width: 10,
+            totalParticles: 500,
+            angle: 0,
+            angleVariation: 16.283185307179586,
+            maxLife: 5000
+        });
+        emitter.name = 'radial explosion';
+        emitter.z = 11;
+        me.game.world.addChild(emitter);
+        me.game.world.addChild(emitter.container);
+        emitter.burstParticles(500);
       }
     },
     update: function(dt) {
