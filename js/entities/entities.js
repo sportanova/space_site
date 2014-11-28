@@ -1,4 +1,16 @@
-var playerData = {orientation: 'north'};
+var gameData = {orientation: 'north'};
+
+game.PersonalDoc = me.Sprite.extend({
+  init: function(x, y, settings) {
+        var settings = {width: gameData.doc.width, height: gameData.doc.height, x: x, y: y}
+        this._super(me.Sprite, 'init', [x, y, settings]);
+        this.image = me.loader.getImage(gameData.doc.image);
+        this.docLink = gameData.doc.link;
+    },
+    onMouseDown: function() {
+        console.log('CLICKED')
+    }
+});
 
 game.AsteroidEntity = me.Entity.extend({
   init: function(x, y, settings) {
@@ -8,6 +20,7 @@ game.AsteroidEntity = me.Entity.extend({
         this.hitPoints = 3;
         this.x = x;
         this.y = y;
+        this.settings = settings;
     },
     removeHitPoint: function() {
       this.hitPoints -= 1;
@@ -28,6 +41,18 @@ game.AsteroidEntity = me.Entity.extend({
         me.game.world.addChild(emitter.container);
         emitter.burstParticles();
 
+        gameData.doc = {
+          image: this.settings.docImage,
+          width: this.settings.docWidth,
+          height: this.settings.docHeight,
+          link: this.settings.docLink
+        };
+
+        var that = this;
+        setTimeout(function() {
+            me.game.world.addChild(me.pool.pull("doc", that.x, that.y))
+        }, 1000)
+
         setTimeout(function() {
             me.game.world.removeChild(emitter);
             me.game.world.removeChild(emitter.container);
@@ -43,6 +68,9 @@ game.AsteroidEntity = me.Entity.extend({
  
         // return true if we moved or if the renderable was updated
         return (this._super(me.Entity, 'update', [dt]) || this.body.vel.x !== 0 || this.body.vel.y !== 0);
+    },
+    onMouseDown: function() { 
+        console.log('CLICKED')
     },
      
     /**
@@ -92,25 +120,25 @@ game.PlayerEntity = me.Entity.extend({
             this.renderable.angle = Math.PI * 1.75;
             this.body.vel.y -= this.body.accel.y * me.timer.tick;
             this.body.vel.x -= this.body.accel.x * me.timer.tick;
-            playerData.orientation = 'northWest';
+            gameData.orientation = 'northWest';
         }
         else if (me.input.isKeyPressed('left') && me.input.isKeyPressed('down')) {
             this.renderable.angle = Math.PI * -0.75;
             this.body.vel.y += this.body.accel.y * me.timer.tick;
             this.body.vel.x -= this.body.accel.x * me.timer.tick;
-            playerData.orientation = 'southWest';
+            gameData.orientation = 'southWest';
         }
         else if (me.input.isKeyPressed('right') && me.input.isKeyPressed('up')) {
             this.renderable.angle = Math.PI * 0.25;
             this.body.vel.y -= this.body.accel.y * me.timer.tick;
             this.body.vel.x += this.body.accel.x * me.timer.tick;
-            playerData.orientation = 'northEast';
+            gameData.orientation = 'northEast';
         }
         else if (me.input.isKeyPressed('right') && me.input.isKeyPressed('down')) {
             this.renderable.angle = Math.PI * -1.25;
             this.body.vel.y += this.body.accel.y * me.timer.tick;
             this.body.vel.x += this.body.accel.x * me.timer.tick;
-            playerData.orientation = 'southEast';
+            gameData.orientation = 'southEast';
         }
         else if (me.input.isKeyPressed('left')) {
             // flip the sprite on horizontal axis
@@ -119,7 +147,7 @@ game.PlayerEntity = me.Entity.extend({
             this.renderable.angle = Math.PI * -0.5;
             this.body.vel.x -= this.body.accel.x * me.timer.tick;
             this.body.vel.y = 0;
-            playerData.orientation = 'west';
+            gameData.orientation = 'west';
             // change to the walking animation
             // if (!this.renderable.isCurrentAnimation("walk")) {
             //     this.renderable.setCurrentAnimation("walk");
@@ -132,19 +160,19 @@ game.PlayerEntity = me.Entity.extend({
             // this.renderable.flipY(true);
             // update the entity velocity
             this.body.vel.x += this.body.accel.x * me.timer.tick;
-            playerData.orientation = 'east';
+            gameData.orientation = 'east';
         }
         else if (me.input.isKeyPressed('up')) {
             this.body.vel.y -= this.body.accel.y * me.timer.tick;
             this.body.vel.x = 0;
             this.renderable.angle = 0;
-            playerData.orientation = 'north';
+            gameData.orientation = 'north';
         }
         else if (me.input.isKeyPressed('down')) {
             this.body.vel.y += this.body.accel.y * me.timer.tick;
             this.body.vel.x = 0;
             this.renderable.angle = Math.PI;
-            playerData.orientation = 'south';
+            gameData.orientation = 'south';
         }
         else {
             // this.body.vel.x = 0;
@@ -191,7 +219,7 @@ game.PlayerEntity = me.Entity.extend({
 
 game.Laser = me.Renderable.extend({
     init: function (x, y) {
-        var lazerCords = this.calcLaserPosition(x, y, playerData.orientation);
+        var lazerCords = this.calcLaserPosition(x, y, gameData.orientation);
         this._super(me.Renderable, "init", [lazerCords.x, lazerCords.y, game.Laser.width, game.Laser.height]);
         this.z = 5;
         this.name = 'laser'
@@ -300,7 +328,7 @@ game.Laser = me.Renderable.extend({
 
     update: function (time) {
         this._super(me.Renderable, "update", [time]);
-        var deltas = this.calcLaserDirectionDelta(this.body.vel.x, this.body.vel.y, this.body.accel.x, this.body.accel.y, playerData.orientation, me.timer.tick);
+        var deltas = this.calcLaserDirectionDelta(this.body.vel.x, this.body.vel.y, this.body.accel.x, this.body.accel.y, gameData.orientation, me.timer.tick);
         this.body.vel.y = deltas.vely;
         this.body.vel.x = deltas.velx;
 

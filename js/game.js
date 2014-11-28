@@ -46,6 +46,7 @@ var game = {
         me.pool.register("mainPlayer", game.PlayerEntity);
         me.pool.register("laser", game.Laser);
         me.pool.register("asteroid", game.AsteroidEntity);
+        me.pool.register("doc", game.PersonalDoc);
          
         // enable the keyboard
         me.input.bindKey(me.input.KEY.LEFT,  "left");
@@ -54,6 +55,10 @@ var game = {
         me.input.bindKey(me.input.KEY.DOWN, "down");
         me.input.bindKey(me.input.KEY.SPACE, "shoot", true);
         me.input.bindKey(me.input.KEY.X,     "jump", true);
+
+        me.input.bindPointer(me.input.KEY.X);
+        // map the right button click on the X key
+        me.input.bindPointer(me.input.mouse.RIGHT, me.input.KEY.X);
          
         // start the game 
         me.state.change(me.state.PLAY);

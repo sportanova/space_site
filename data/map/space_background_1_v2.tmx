@@ -17,6 +17,10 @@
   </object>
   <object name="asteroid" x="847" y="429" width="172" height="51">
    <properties>
+    <property name="docHeight" value="291"/>
+    <property name="docImage" value="resume"/>
+    <property name="docLink" value="https://docs.google.com/document/d/1JNjaVmTkfxZjoGYuJKt8OTtbN1QbUOLWqh2HeVo92SU/edit?usp=sharing"/>
+    <property name="docWidth" value="225"/>
     <property name="image" value="asteroid"/>
     <property name="spritewidth" value="160"/>
    </properties>

@@ -3,7 +3,8 @@ game.resources = [
   {name: "space_background_1", type: "tmx", src: "data/map/space_background_1_v2.tmx"}, // TODO: change to json format through tiled?
   {name: "bluedestroyer", type:"image", src: "data/img/sprite/bluedestroyer.png"},
   {name: "asteroid",  type:"image", src: "data/img/boulder.png"},
-  {name: "explosion",  type:"image", src: "data/img/explosion.png"}
+  {name: "explosion",  type:"image", src: "data/img/explosion.png"},
+  {name: "resume",  type:"image", src: "data/img/sportanovaResume_11-28-14.png"}
 
     /* Graphics.
      * @example
