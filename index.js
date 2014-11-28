@@ -1,5 +1,3 @@
-module.exports = require('./node_modules/express/lib/express');
-
 var express    = require('express');
 var app        = express();
 var router = express.Router();
