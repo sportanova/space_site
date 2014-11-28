@@ -1,19 +1,24 @@
 var gameData = {orientation: 'north'};
 
-game.PersonalDoc = me.Sprite.extend({
+game.PersonalDoc = me.Entity.extend({
   init: function(x, y, settings) {
-        var settings = {width: gameData.doc.width, height: gameData.doc.height, x: x, y: y}
-        this._super(me.Sprite, 'init', [x, y, settings]);
+        var settings = {width: gameData.doc.width, height: gameData.doc.height, x: x, y: y, image: gameData.doc.image}
+
+        this._super(me.Entity, 'init', [x, y, settings]);
         this.image = me.loader.getImage(gameData.doc.image);
         this.docLink = gameData.doc.link;
+
+        me.input.registerPointerEvent('pointerdown', this, this.onMouseDown.bind(this));
     },
     onMouseDown: function() {
         console.log('CLICKED')
+        window.open(this.docLink)
     }
 });
 
 game.AsteroidEntity = me.Entity.extend({
   init: function(x, y, settings) {
+    console.log('asteroid settings', settings)
         settings['height'] = 128;
         // call the constructor
         this._super(me.Entity, 'init', [x, y, settings]);

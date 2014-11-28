@@ -55,10 +55,6 @@ var game = {
         me.input.bindKey(me.input.KEY.DOWN, "down");
         me.input.bindKey(me.input.KEY.SPACE, "shoot", true);
         me.input.bindKey(me.input.KEY.X,     "jump", true);
-
-        me.input.bindPointer(me.input.KEY.X);
-        // map the right button click on the X key
-        me.input.bindPointer(me.input.mouse.RIGHT, me.input.KEY.X);
          
         // start the game 
         me.state.change(me.state.PLAY);
