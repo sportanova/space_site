@@ -25,6 +25,26 @@
     <property name="spritewidth" value="160"/>
    </properties>
   </object>
+  <object name="asteroid" x="104" y="88.5" width="172" height="51">
+   <properties>
+    <property name="docHeight" value="106"/>
+    <property name="docImage" value="blog"/>
+    <property name="docLink" value="https://sportanova.silvrback.com/"/>
+    <property name="docWidth" value="108"/>
+    <property name="image" value="asteroid"/>
+    <property name="spritewidth" value="160"/>
+   </properties>
+  </object>
+  <object name="asteroid" x="591" y="895.5" width="172" height="51">
+   <properties>
+    <property name="docHeight" value="123"/>
+    <property name="docImage" value="github"/>
+    <property name="docLink" value="https://github.com/sportanova"/>
+    <property name="docWidth" value="144"/>
+    <property name="image" value="asteroid"/>
+    <property name="spritewidth" value="160"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup name="collision">
   <object x="5" y="9" width="7" height="1272"/>

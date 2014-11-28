@@ -4,7 +4,9 @@ game.resources = [
   {name: "bluedestroyer", type:"image", src: "data/img/sprite/bluedestroyer.png"},
   {name: "asteroid",  type:"image", src: "data/img/boulder.png"},
   {name: "explosion",  type:"image", src: "data/img/explosion.png"},
-  {name: "resume",  type:"image", src: "data/img/sportanovaResume_11-28-14.png"}
+  {name: "resume",  type:"image", src: "data/img/sportanovaResume_11-28-14.png"},
+  {name: "blog",  type:"image", src: "data/img/blog.png"},
+  {name: "github",  type:"image", src: "data/img/github-octocat.png"}
 
     /* Graphics.
      * @example

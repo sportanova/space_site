@@ -11,8 +11,7 @@ game.PersonalDoc = me.Entity.extend({
         me.input.registerPointerEvent('pointerdown', this, this.onMouseDown.bind(this));
     },
     onMouseDown: function() {
-        console.log('CLICKED')
-        window.open(this.docLink)
+      window.open(this.docLink)
     }
 });
 
@@ -73,9 +72,6 @@ game.AsteroidEntity = me.Entity.extend({
  
         // return true if we moved or if the renderable was updated
         return (this._super(me.Entity, 'update', [dt]) || this.body.vel.x !== 0 || this.body.vel.y !== 0);
-    },
-    onMouseDown: function() { 
-        console.log('CLICKED')
     },
      
     /**
