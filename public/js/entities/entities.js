@@ -184,18 +184,6 @@ game.PlayerEntity = me.Entity.extend({
         if (me.input.isKeyPressed("shoot")) {
             me.game.world.addChild(me.pool.pull("laser", this.pos.x + (this.width / 2 - game.Laser.width / 2), this.pos.y - game.Laser.height))
         }
-     
-        // if (me.input.isKeyPressed('jump')) {
-        //     // make sure we are not already jumping or falling
-        //     if (!this.body.jumping && !this.body.falling) {
-        //         // set current vel to the maximum defined value
-        //         // gravity will then do the rest
-        //         this.body.vel.y = -this.body.maxVel.y * me.timer.tick;
-        //         // set the jumping flag
-        //         this.body.jumping = true;
-        //     }
- 
-        // }
  
         // apply physics to the body (this moves the entity)
         this.body.update(dt);
