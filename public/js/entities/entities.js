@@ -17,11 +17,10 @@ game.PersonalDoc = me.Entity.extend({
 
 game.AsteroidEntity = me.Entity.extend({
   init: function(x, y, settings) {
-    console.log('asteroid settings', settings)
         settings['height'] = 128;
         // call the constructor
         this._super(me.Entity, 'init', [x, y, settings]);
-        this.hitPoints = 3;
+        this.hitPoints = 1;
         this.x = x;
         this.y = y;
         this.settings = settings;
@@ -228,6 +227,7 @@ game.Laser = me.Renderable.extend({
         this.body = body;
         this.body.updateBounds();
         this.body.setVelocity(0, 20);
+        this.startTime = Date.now();
     },
 
     calcLaserPosition: function(x, y, playerOrientation) {
